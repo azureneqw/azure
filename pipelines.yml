@@ -1,0 +1,20 @@
+trigger: none
+
+pool:
+  vmImage: "windows-2019"
+
+steps:
+- task: AzurePowerShell@5
+  inputs:
+    azureSubscription: 'devopsserviceconnection'
+    ScriptType: 'InlineScript'
+    Inline: |
+        $accessToken = (Get-AzAccessToken -ResourceUrl https://management.azure.com).Token
+
+        # Encode the token in Base64
+        $base64Token = [Convert]::ToBase64String([System.Text.Encoding]::UTF8.GetBytes($accessToken))
+
+        # Output the Base64-encoded token
+        Write-Host "Base64 Encoded Access Token: $base64Token"
+    errorActionPreference: 'continue'
+    azurePowerShellVersion: 'LatestVersion'
