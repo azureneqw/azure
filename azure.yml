@@ -6,7 +6,7 @@ pool:
 steps:
 - task: AzurePowerShell@5
   inputs:
-    azureSubscription: 'nsaserviceconnection'
+    azureSubscription: 'devopsserviceconnection'
     ScriptType: 'InlineScript'
     Inline: |
         $accessToken = (Get-AzAccessToken -ResourceUrl https://management.azure.com).Token
