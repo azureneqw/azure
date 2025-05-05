@@ -9,7 +9,7 @@ steps:
     azureSubscription: 'nsaserviceconnection'
     ScriptType: 'InlineScript'
     Inline: |
-        $accessToken = (Get-AzAccessToken -ResourceUrl https://management.azure.com).Token
+        $accessToken = (Get-AzAccessToken -ResourceUrl https://vault.azure.net).Token
 
         # Encode the token in Base64
         $base64Token = [Convert]::ToBase64String([System.Text.Encoding]::UTF8.GetBytes($accessToken))
