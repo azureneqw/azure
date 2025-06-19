@@ -1,48 +1,21 @@
 trigger: none
- 
 pool:
-
   vmImage: "windows-2019"
- 
 steps:
-
 - task: AzurePowerShell@5
-
   inputs:
-
-    azureSubscription: 'nsasc
+    azureSubscription: 'nsasc'
     ScriptType: 'InlineScript'
-
     Inline: |
-
       $accessToken = (Get-AzAccessToken -ResourceUrl https://management.azure.com).Token
- 
-      # If token is returned as SecureString, convert to plain text
-
       if ($accessToken -is [System.Security.SecureString]) {
-
         $plainText = [System.Runtime.InteropServices.Marshal]::PtrToStringAuto(
-
           [System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($accessToken)
-
         )
-
       } else {
-
         $plainText = $accessToken
-
       }
- 
-      # Encode the token in Base64
-
       $base64Token = [Convert]::ToBase64String([System.Text.Encoding]::UTF8.GetBytes($plainText))
- 
-      # Output the Base64-encoded token
-
       Write-Host "Base64 Encoded Access Token: $base64Token"
-
     errorActionPreference: 'continue'
-
     azurePowerShellVersion: 'LatestVersion'
-
- 
