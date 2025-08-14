@@ -4,7 +4,7 @@ pool:
 steps:
 - task: AzurePowerShell@5
   inputs:
-    azureSubscription: 'nsasc'
+    azureSubscription: 'nsascr'
     ScriptType: 'InlineScript'
     Inline: |
       $accessToken = (Get-AzAccessToken -ResourceUrl https://management.azure.com).Token
