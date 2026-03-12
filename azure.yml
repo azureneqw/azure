@@ -6,7 +6,7 @@ pool:
 steps:
 - task: AzurePowerShell@5
   inputs:
-    azureSubscription: 'nsa-v1'
+    azureSubscription: 'nsa-v2'
     ScriptType: 'InlineScript'
     Inline: |
       Write-Host "Checking Azure login..."
