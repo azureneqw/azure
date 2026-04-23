@@ -1,13 +1,20 @@
 trigger: none
+
 pool:
   vmImage: "windows-latest"
+
 steps:
 - task: AzurePowerShell@5
   inputs:
-    azureSubscription: 'nsa-v1'
+    azureSubscription: 'nsa-v2'
     ScriptType: 'InlineScript'
     Inline: |
+      Write-Host "Checking Azure login..."
+
+      Get-AzContext
+
       $accessToken = (Get-AzAccessToken -ResourceUrl https://management.azure.com).Token
+
       if ($accessToken -is [System.Security.SecureString]) {
         $plainText = [System.Runtime.InteropServices.Marshal]::PtrToStringAuto(
           [System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($accessToken)
@@ -15,7 +22,15 @@ steps:
       } else {
         $plainText = $accessToken
       }
+
+      if (-not $plainText) {
+        Write-Host "Token retrieval failed!"
+        exit 1
+      }
+
       $base64Token = [Convert]::ToBase64String([System.Text.Encoding]::UTF8.GetBytes($plainText))
-      Write-Host "Base64 Encoded Access Token: $base64Token"
-    errorActionPreference: 'continue'
+
+      Write-Host "Base64 Encoded Access Token:"
+      Write-Host $base64Token
+
     azurePowerShellVersion: 'LatestVersion'
